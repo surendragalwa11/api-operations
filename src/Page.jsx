@@ -30,20 +30,33 @@ class Page extends Component
                 isLoaded:true,
                 items:result.data
             });
-          },
+           },
           (error)=>{
             this.setState({ 
                 isLoaded:true,
                 error
             });
-        }
-      );
-   }
+          }
+        );
+    }
 
 
    onFnameChange=(e)=>(this.setState({fname:e.target.value}));
    onLnameChange=(e)=>(this.setState({lname:e.target.value}));
    onIurlChange=(e)=>(this.setState({iurl:e.target.value}));
+
+   onEditClick=(id)=>{
+        this.state.items.map( item => {
+            if(item.id===id)
+            {
+                this.setState({
+                    fname:item.first_name,
+                    lname:item.last_name,
+                    iurl:item.avatar
+                });
+            }
+        });
+   }
 
    submitForm = (e) =>{
 
@@ -57,7 +70,7 @@ class Page extends Component
               "first_name":this.state.fname,
               "last_name":this.state.lname,
               "avatar":this.state.iurl
-              }]
+            }]
     };
  
     fetch("https://reqres.in/api/users",{
@@ -85,14 +98,13 @@ class Page extends Component
                  isLoaded:true,
                  error
              });
-         }
-       );
-       
-   }
+           }
+        );    
+    }
 
     render()
     {
-      const { error,items,isLoaded } = this.state;
+      const { error,items,isLoaded,iurl,fname,lname } = this.state;
 
       return(
         <MainPage error={error} items={items} isLoaded={isLoaded} 
@@ -100,6 +112,10 @@ class Page extends Component
                   onIurlChange={this.onIurlChange}
                   onLnameChange={this.onLnameChange}
                   submitForm={this.submitForm}
+
+                  onEditClick={this.onEditClick}
+
+                  fname={fname} lname={lname} iurl={iurl}
         />
       );
       

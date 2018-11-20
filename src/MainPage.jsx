@@ -18,11 +18,23 @@ class MainPage extends Component
         else
         {
             return(<div>
-           <DisplayPage items={this.props.items} />
+           <DisplayPage items={this.props.items} 
+                onLnameChange={this.props.onLnameChange}
+                onFnameChange={this.props.onFnameChange}
+                onIurlChange={this.props.onIurlChange}
+                submitForm={this.props.submitForm}
+
+                onEditClick={this.props.onEditClick}
+
+                fname={this.props.fname}
+                lname={this.props.lname}
+                iurl={this.props.iurl}
+           />
            <PopUp onLnameChange={this.props.onLnameChange}
                   onFnameChange={this.props.onFnameChange}
                   onIurlChange={this.props.onIurlChange}
                   submitForm={this.props.submitForm}
+                  btnName={"Add row"}     
            />
   
   </div>  );
