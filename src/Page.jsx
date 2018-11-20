@@ -12,7 +12,8 @@ class Page extends Component
           items:[],
           fname:"",
           lname:"",
-          iurl:""
+          iurl:"",
+          id:undefined
         }
     }
 
@@ -46,16 +47,30 @@ class Page extends Component
    onIurlChange=(e)=>(this.setState({iurl:e.target.value}));
 
    onEditClick=(id)=>{
-        this.state.items.map( item => {
+        
+    const newItem=this.state.items.map( item => {
             if(item.id===id)
             {
                 this.setState({
                     fname:item.first_name,
                     lname:item.last_name,
-                    iurl:item.avatar
+                    iurl:item.avatar,
+                    id
                 });
+                //on edit submission
+                //item.first_name=this.state.fname;
+                //item.last_name=this.state.lname;
+                //item.avatar=this.state.iurl 
+                // this.setState({
+                //     items:[...this.state.items,...[{ "id":id,"first_name":this.state.fname,
+                //     "last_name":this.state.lname,"avatar":this.state.iurl
+                //     }]]
+                // });
             }
+            return item;
         });
+
+        console.log(newItem);
    }
 
    submitForm = (e) =>{
@@ -66,7 +81,7 @@ class Page extends Component
    var data={
 
         "data":[{ 
-              "id":2123, 
+              "id":Math.random(), 
               "first_name":this.state.fname,
               "last_name":this.state.lname,
               "avatar":this.state.iurl
@@ -86,12 +101,23 @@ class Page extends Component
        .then(
  
            (result)=>{
-             console.log(result);
-             this.setState({
-                 isLoaded:true,
-                 items:[...this.state.items,...result.data],
-                 fname:"",lname:"",iurl:""
-             });
+               console.log(result);
+               
+            //    //tryiing to print id of result.data array,object
+            //    const id = result.data.map(data=>{
+            //        return(data.id);
+            //    });
+            //    console.log(id);
+
+               const newItem=this.state.items.filter(item=>(this.state.id!==item.id));
+
+               console.log(newItem);
+
+               this.setState({
+                   isLoaded:true,
+                   items:[...newItem,...result.data],
+                   fname:"",lname:"",iurl:""
+               });
            },
            (error)=>{
              this.setState({ 
